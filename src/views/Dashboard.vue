@@ -25,9 +25,14 @@ function logout() {
 <template>
   <div v-if="user" class="dashboard">
     <h1 class="dashboard__title">
-      Welcome , <span class="dashboard__email">{{ user.email }}</span>
+      Welcome , <span class="dashboard__email">{{ user.username }}</span>
     </h1>
     <p class="dashboard__text">This is your dashboard</p>
+    <p class="dashboard__text">No turn has been recorded❗</p>
+    <ul>
+      <li></li>
+    </ul>
+    <button class="dashboard__logout" @click="logout">Booking</button>
     <button class="dashboard__logout" @click="logout">Log Out</button>
   </div>
   <div v-else class="dashboard">
@@ -72,8 +77,8 @@ function logout() {
   color: orange;
 }
 .dashboard__logout {
+  color: #000;
   background-color: #fff;
-  color: #3e3d43;
   border-radius: 4px;
   text-align: center;
   padding: 15px 0;
@@ -89,6 +94,6 @@ function logout() {
 }
 .dashboard__logout:hover {
   cursor: pointer;
-  background-color: darkgrey;
+  background-color: rgb(240, 223, 192);
 }
 </style>

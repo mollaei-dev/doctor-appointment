@@ -23,6 +23,7 @@ html {
 }
 body {
   font-family: 'Poppins', 'Calibri', sans-serif;
+  letter-spacing: 0.5px;
   background-color: #080710;
   display: flex;
   justify-content: center;

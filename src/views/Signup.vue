@@ -3,30 +3,42 @@ import { ref } from 'vue'
 import Login from './Login.vue'
 import { useRouter } from 'vue-router'
 
-const email = ref()
-const password = ref()
+const username = ref(null)
+const password = ref(null)
 const router = useRouter()
+const message = ref('')
 
-email.value = ''
-password.value = ''
+function hideMessage() {
+  setTimeout(() => {
+    message.value = null
+  }, 3000)
+}
 
 function handleSignup() {
-  let users = JSON.parse(localStorage.getItem('users')) || []
-   if (!Array.isArray(users)) {
-  users = []
-}
-  const userExists = users.find(
-    (user) => user.email === email.value && user.password === password.value,
-  )
-  if (userExists) {
-    alert('User already exists')
+  if (!username.value || !password.value) {
+    message.value = 'All fields are required'
+    hideMessage()
     return
   }
-  users.push({ email: email.value, password: password.value })
+  let users = JSON.parse(localStorage.getItem('users')) || []
+  if (!Array.isArray(users)) {
+    users = []
+  }
+  const userExists = users.find(
+    (user) => user.username === username.value && user.password === password.value,
+  )
+  if (userExists) {
+    message.value = 'User already exists'
+    hideMessage()
+    return
+  }
+  users.push({ username: username.value, password: password.value })
   localStorage.setItem('users', JSON.stringify(users))
-
-  alert('Signup successful , You can login now')
-  router.push('login')
+  message.value = 'Signup successful'
+  hideMessage()
+  setTimeout(() => {
+    router.push('login')
+  }, 2000)
 }
 </script>
 <template>
@@ -36,12 +48,12 @@ function handleSignup() {
       <div class="form__field">
         <label class="form__label" for="username">Username</label>
         <input
-          v-model="email"
+          v-model="username"
           autocomplete="off"
           type="text"
           class="form__input"
           id="username"
-          placeholder="Enter your email"
+          placeholder="Username"
         />
       </div>
       <div class="form__field">
@@ -52,10 +64,14 @@ function handleSignup() {
           type="password"
           class="form__input"
           id="password"
-          placeholder="Enter a Password"
+          placeholder="Password"
         />
       </div>
-      <button type="submit" class="form__button">Signup</button>
+      <div class="form__field--btn">
+        <p class="form__message" :class="{ 'form__message--show': message }">{{ message }}</p>
+        <button type="submit" class="form__button">Signup</button>
+      </div>
+
       <div class="form__signup">
         <p class="form__signup-text">Already have an account?</p>
         <router-link to="login" class="form__signup-link">Login</router-link>
@@ -65,10 +81,12 @@ function handleSignup() {
 </template>
 <style scoped>
 input,
-button {
+button,
+label {
   font-family: inherit;
   border: none;
   outline: none;
+  letter-spacing: 0.6px;
 }
 .form {
   width: 100%;
@@ -85,9 +103,10 @@ button {
   font-size: 32px;
   text-align: center;
   margin-bottom: 30px;
+  letter-spacing: 1.5px;
 }
 .form__field {
-  margin-bottom: 26px;
+  margin-bottom: 33px;
 }
 .form__label {
   font-size: 16px;
@@ -100,29 +119,44 @@ button {
   height: 50px;
   padding: 0 10px;
   color: black;
-  background-color: #d0caca;
   border-radius: 6px;
 }
 .form__input::placeholder {
   color: rgb(34, 32, 32);
-  background-color: #d0caca;
+}
+.form__field--btn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.form__message {
+  height: 24px;
+  opacity: 0;
+  color: orange;
+  font-size: 18px;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 1000ms ease;
+}
+.form__message--show {
+  opacity: 1;
 }
 .form__button {
-  background-color: #acabab;
-  color: black;
+  background-color: #10579d;
+  color: #fff;
   border-radius: 4px;
   text-align: center;
   padding: 15px 0;
   display: block;
   font-size: 20px;
   width: 100%;
-  margin-top: 46px;
   font-weight: bolder;
   transition: all 200ms;
 }
 .form__button:hover {
   cursor: pointer;
-  background-color: #696868;
+  background-color: #093c70;
 }
 
 .form__signup {
@@ -134,7 +168,7 @@ button {
   font-size: 16px;
 }
 .form__signup-link {
-  color: rgb(26, 23, 23);
+  color:#03386e;
   font-size: 16px;
   font-weight: bold;
 }

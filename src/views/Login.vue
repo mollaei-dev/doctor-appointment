@@ -3,26 +3,38 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
-const email = ref('')
+const username = ref('')
 const password = ref('')
 const router = useRouter()
 const currentUserStore = useUserStore()
+const message = ref('')
+
+function hideMessage() {
+  setTimeout(() => {
+    message.value = null
+  }, 3000)
+}
 
 function handleLogin() {
+  if (!username.value || !password.value) {
+    message.value = 'All fields are required'
+    hideMessage()
+    return
+  }
   let users = JSON.parse(localStorage.getItem('users')) || []
   if (!Array.isArray(users)) {
     users = []
   }
   const foundUser = users.find(
-    (user) => user.email === email.value && user.password === password.value,
+    (user) => user.username === username.value && user.password === password.value,
   )
   if (!foundUser) {
-    alert('User not found')
-    email.value = ''
+    message.value = 'User not found'
+    hideMessage()
+    username.value = ''
     password.value = ''
     return
   }
-  alert('sucess')
   localStorage.setItem('currentUser', JSON.stringify(foundUser))
   currentUserStore.setUser(foundUser)
   router.push('dashboard')
@@ -35,11 +47,11 @@ function handleLogin() {
       <div class="form__field">
         <label class="form__label" for="username">Username</label>
         <input
-          v-model="email"
-          type="email"
+          v-model="username"
+          type="text"
           class="form__input"
           id="username"
-          placeholder="Email "
+          placeholder="Username"
           autocomplete="off"
         />
       </div>
@@ -54,7 +66,10 @@ function handleLogin() {
           autocomplete="new-password"
         />
       </div>
-      <button type="submit" class="form__button">Login</button>
+      <div class="form__field--btn">
+        <p class="form__message" :class="{ 'form__message--show': message }">{{ message }}</p>
+        <button type="submit" class="form__button">Login</button>
+      </div>
       <div class="form__signup">
         <p class="form__signup-text">Don't have an account?</p>
         <router-link to="signup" class="form__signup-link">Sign Up</router-link>
@@ -64,10 +79,12 @@ function handleLogin() {
 </template>
 <style scoped>
 input,
-button {
-  font-family: inherit;
+button,
+label {
+  font: inherit;
   border: none;
   outline: none;
+  letter-spacing: 0.6px;
 }
 .form {
   width: 100%;
@@ -84,16 +101,17 @@ button {
   font-size: 32px;
   text-align: center;
   margin-bottom: 30px;
+  letter-spacing: 1.5px;
 }
 .form__field {
-  margin-bottom: 26px;
+  margin-top: 33px;
 }
 .form__label {
   font-size: 16px;
 }
 .form__input {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   display: block;
   width: 100%;
   height: 50px;
@@ -104,22 +122,39 @@ button {
 .form__input::placeholder {
   color: rgb(34, 32, 32);
 }
+.form__field--btn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.form__message {
+  height: 24px;
+  opacity: 0;
+  color: orange;
+  font-size: 18px;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 1000ms ease;
+}
+.form__message--show {
+  opacity: 1;
+}
 .form__button {
+  color: #000;
   background-color: #fff;
-  color: #080710;
   border-radius: 4px;
   text-align: center;
   padding: 15px 0;
   display: block;
   font-size: 20px;
   width: 100%;
-  margin-top: 46px;
   font-weight: bolder;
   transition: all 200ms;
 }
 .form__button:hover {
   cursor: pointer;
-  background-color: darkgrey;
+  background-color: rgb(240, 223, 192);
 }
 
 .form__signup {
@@ -131,7 +166,7 @@ button {
   font-size: 16px;
 }
 .form__signup-link {
-  color: rgb(26, 23, 23);
+  color:#03386e;
   font-size: 16px;
   font-weight: bold;
 }

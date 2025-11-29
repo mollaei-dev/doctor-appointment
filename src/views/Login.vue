@@ -36,7 +36,7 @@ function handleLogin() {
     return
   }
   localStorage.setItem('currentUser', JSON.stringify(foundUser))
-  currentUserStore.setUser(foundUser)
+  currentUserStore.login(foundUser)
   router.push('dashboard')
 }
 </script>

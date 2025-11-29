@@ -2,11 +2,12 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    currentUser: null,
+    currentUser: localStorage.getItem('cuurentUser') || '',
   }),
   actions: {
-    setUser(user) {
-      this.currentUser = user
+    login(username) {
+      this.currentUser = username
+      localStorage.setItem("currentUser",username)
     },
     logOut() {
       this.currentUser = null

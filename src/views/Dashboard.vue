@@ -9,15 +9,14 @@ const userStore = useUserStore()
 const user = computed(() => userStore.currentUser)
 
 onMounted(() => {
-  const saveUser = JSON.parse(localStorage.getItem('currentUser'))
+  const saveUser = localStorage.getItem('currentUser')
   if (saveUser) {
-    userStore.setUser(saveUser)
-  } else {
-    router.push('login')
+    userStore.login(saveUser)
   }
 })
 
 function logout() {
+  localStorage.removeItem('currentUser')
   userStore.logOut()
   router.push('login')
 }

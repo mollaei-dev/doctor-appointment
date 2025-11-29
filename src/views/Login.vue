@@ -86,17 +86,6 @@ label {
   outline: none;
   letter-spacing: 0.6px;
 }
-.form {
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.13);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.13);
-  border-radius: 10px;
-  padding: 50px 35px 35px 35px;
-  backdrop-filter: blur(10px);
-}
 .form__title {
   font-size: 32px;
   text-align: center;

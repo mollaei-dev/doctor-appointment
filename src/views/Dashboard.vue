@@ -20,7 +20,7 @@ function logout() {
   userStore.logOut()
   router.push('login')
 }
-</script>
+</script> 
 <template>
   <div v-if="user" class="dashboard">
     <h1 class="dashboard__title">
@@ -46,15 +46,6 @@ function logout() {
   justify-content: center;
   align-items: center;
   gap: 30px;
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.13);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.13);
-  border-radius: 10px;
-  padding: 50px 35px 35px 35px;
-  backdrop-filter: blur(10px);
 }
 .dashboard__title {
   font-size: 22px;

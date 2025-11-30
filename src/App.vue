@@ -31,7 +31,6 @@ body {
   height: 100vh;
 }
 .app {
-  width: 400px;
   position: relative;
 }
 .container {

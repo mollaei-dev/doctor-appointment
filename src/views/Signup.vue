@@ -1,6 +1,5 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/userStore'
 import UserForm from '@/components/UserForm.vue'
 
 const router = useRouter()

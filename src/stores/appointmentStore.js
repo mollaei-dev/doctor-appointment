@@ -26,9 +26,6 @@ export const useAppointmentStore = defineStore('appointments', {
       localStorage.setItem(`appointment_${user.username}`, JSON.stringify(this.appointments))
       localStorage.setItem('all_reserved_times', JSON.stringify(this.allReservedTimes))
     },
-    // isReserved(appointmentTime) {
-    //   return this.allReservedTimes.includes(appointmentTime)
-    // },
   },
   getters: {
     isReserved: (state) => (appointmentTime) => state.allReservedTimes.includes(appointmentTime)

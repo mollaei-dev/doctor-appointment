@@ -3,7 +3,6 @@ import AppointmentList from '@/components/AppointmentList.vue'
 import { useAppointmentStore } from '@/stores/appointmentStore'
 import { useUserStore } from '@/stores/userStore'
 import { computed, watchEffect } from 'vue'
-import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

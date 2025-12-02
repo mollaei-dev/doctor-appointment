@@ -29,7 +29,7 @@ function handleSignup(username, password, setMessage) {
       btnText="Create Account"
       :submit="handleSignup"
       linkTo="login"
-      linkText="Already have an account? Login"
+      linkText="Already have an account?"
     />
   </main>
 </template>

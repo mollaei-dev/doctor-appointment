@@ -10,13 +10,6 @@ const router = useRouter()
 const userStore = useUserStore()
 const appointmentStore = useAppointmentStore()
 
-onMounted(() => {
-  const saveUser = JSON.parse(localStorage.getItem('currentUser') || '')
-  if (saveUser) {
-    userStore.login(saveUser)
-    appointmentStore.loadAppointments(saveUser)
-  }
-})
 watchEffect(() => {
   appointmentStore.loadAppointments(userStore.currentUser)
 })
@@ -33,7 +26,7 @@ function logout() {
 }
 </script>
 <template>
-  <div v-if="user" class="dashboard">
+  <div class="dashboard">
     <h1 class="dashboard__title">
       Welcome , <span class="dashboard__email">{{ user.username }}</span>
     </h1>
@@ -48,15 +41,10 @@ function logout() {
         @itemAction="removeTime"
       />
     </div>
-
     <div class="wrapper-button">
       <button class="dashboard__button" @click="router.push('appointments')">Appointments</button>
       <button class="dashboard__button" @click="logout">Log Out</button>
     </div>
-  </div>
-  <div v-else class="dashboard">
-    <p class="dashboard__alert">you are not logged in</p>
-    <RouterLink class="dashboard__link" to="login">login</RouterLink>
   </div>
 </template>
 <style scoped>

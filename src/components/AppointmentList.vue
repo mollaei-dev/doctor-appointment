@@ -1,12 +1,25 @@
 <script setup>
-const props = defineProps({ listItems: Array, actionLabel: String })
+const props = defineProps({
+  listItems: Array,
+  actionLabel: String,
+  isReserved: { type: Function, default: () => false },
+})
 const emit = defineEmits(['itemAction'])
 </script>
+
 <template>
   <ul class="list">
     <li class="list__item" v-for="(item, index) in listItems" :key="index">
       <p class="list__item-text">{{ item }}</p>
-      <button class="list__item-button" @click="emit('itemAction', index)">
+      <button
+        class="list__item-button"
+        @click="emit('itemAction', item)"
+        :disabled="isReserved(item)"
+        :class="{
+          'list__item-button--reserve': actionLabel === 'Reserve',
+          'list__item-button--remove': actionLabel === 'Cancel',
+        }"
+      >
         {{ actionLabel }}
       </button>
     </li>
@@ -30,11 +43,11 @@ const emit = defineEmits(['itemAction'])
   gap: 20px;
   width: 100%;
   border-radius: 7px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.13);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.13);
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: 0 0 7px #fff;
+  border: 2px solid #fff;
 }
 .list__item-text {
   color: #fff;
@@ -43,18 +56,27 @@ const emit = defineEmits(['itemAction'])
 }
 .list__item-button {
   padding: 5px 10px;
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 7px;
-  border: 1px solid white;
-  background-color: rgb(68, 68, 68);
+  border: 3px solid white;
+  background-color: #fff;
+  color: #000;
   cursor: pointer;
   text-align: center;
 }
-.list__item-button:hover {
-  box-shadow: 0 0 10px #42a5f5;
-  border: 2px solid #42a5f5;
+.list__item-button--remove:hover {
+  box-shadow: 0 0 15px #e65100;
+  border: 3px solid #e65100;
 }
-.list__item-button--selected {
-  text-decoration: line-through;
+.list__item-button--reserve:hover {
+  box-shadow: 0 0 15px #42a5f5;
+  border: 3px solid #42a5f5;
+}
+.list__item-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: gray;
+  border: none;
 }
 </style>

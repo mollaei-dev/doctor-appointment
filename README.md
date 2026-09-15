@@ -10,4 +10,8 @@ This is a simple Vue.js app for booking appointments.
 - Components are **reactive**, so UI updates automatically.  
 - **Route guards** protect pages that need login.  
 
+## Live Demo
+
+[View Live Demo](https://mollaei-dev.github.io/doctor-appointment/)
+
 Simple and easy to use!
